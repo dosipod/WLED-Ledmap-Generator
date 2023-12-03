@@ -306,9 +306,9 @@ function printMap() {
   mapHTML += '<PRE>';
   // mapHTML += '{"n":"matrix","map":[';
      mapHTML += '{"n":"matrix","map"'+ ';<BR>';
-     mapHTML += '",width":' + xdim + ';<BR>';
-     mapHTML += '",height":' + ydim + ';<BR>';
-     mapHTML += '[' +';<BR>';
+     mapHTML += ',"width":' + xdim + '<BR>';
+     mapHTML += ',"height":' + ydim + '<BR>';
+     mapHTML += '[' +'<BR>';
   for (y = 0; y < ydim; y++) {
     mapHTML += '<BR>';
     for (x = 0; x < xdim; x++) {
