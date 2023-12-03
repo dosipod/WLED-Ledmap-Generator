@@ -305,10 +305,10 @@ function printMap() {
   ledindex = 0;
   mapHTML += '<PRE>';
   // mapHTML += '{"n":"matrix","map":[';
-     mapHTML += '{"n":"matrix","map"'+ ';<BR>';
+     mapHTML += '{"n":"Aldiy ledmap"'+ ';<BR>';
      mapHTML += ',"width":' + xdim + '<BR>';
      mapHTML += ',"height":' + ydim + '<BR>';
-     mapHTML += '[' +'<BR>';
+     mapHTML += '"map":[';
   for (y = 0; y < ydim; y++) {
     mapHTML += '<BR>';
     for (x = 0; x < xdim; x++) {
