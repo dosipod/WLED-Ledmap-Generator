@@ -3,3 +3,5 @@ Automatically generates XYmap function for irregular/gapped LED arrays.
 
 Try it here:
 <a href="https://dosipod.github.io/WLED-Ledmap-Generator/"> https://dosipod.github.io/WLED-Ledmap-Generator/</a>
+
+<img width="448" alt="image" src="/assets/images/content/How_to_create_LEDMAPS_01.png">
