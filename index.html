@@ -8,13 +8,21 @@
     <script src="XYmapper.js"></script>
 
 
-    <script>
-      var inputMapName = document.createElement('inputMapName'); 
-      input.type = "text"; 
-      container.appendChild(inputMapName);
-      document.getElementById("inputMapName").defaultValue = "ALDIY MAP Test ";  
+   <input type="text" id="Username"/>
+   <input type="button" id = "tutorial" value="Click" onclick = "repeatvalue()" />
     
-    </script>
+
+   <hr />
+   <label id = "label"></label>
+   <script>
+      function repeatvalue() {
+         var txtName = document.getElementById("Username");
+         var lblName = document.getElementById("label");
+         lblName.innerHTML = txtName.value;
+          txtName.value="dsdsdsdsd"
+         document.getElementById("Username").defaultValue = "ALDIY MAP Test"; 
+      }
+   </script>
 
   
     
