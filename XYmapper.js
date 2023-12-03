@@ -91,10 +91,7 @@ function buildGrid(numBoxes) {
   xdim = Number(document.getElementById('xdim').value);
   ydim = Number(document.getElementById('ydim').value);
 
-  var inputMapName = document.createElement('inputMapName'); 
-  input.type = "text"; 
-  container.appendChild(inputMapName);
-  document.getElementById(inputMapName").defaultValue = "ALDIY MAP Test "; 
+  
 
 
 
