@@ -305,8 +305,10 @@ function printMap() {
   ledindex = 0;
   mapHTML += '<PRE>';
   // mapHTML += '{"n":"matrix","map":[';
-     mapHTML += '{"n":"matrix","map",';
-     mapHTML += '"width":' + xdim + ';<BR>';
+     mapHTML += '{"n":"matrix","map"'+ ';<BR>';
+     mapHTML += '",width":' + xdim + ';<BR>';
+     mapHTML += '",height":' + ydim + ';<BR>';
+     mapHTML += '[' +';<BR>';
   for (y = 0; y < ydim; y++) {
     mapHTML += '<BR>';
     for (x = 0; x < xdim; x++) {
