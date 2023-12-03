@@ -8,6 +8,20 @@
     <script src="XYmapper.js"></script>
 
 
+  <input type="text" id="Username"/>
+   <input type="button" id = "tutorial" value="Click" onclick = "repeatvalue()" />
+   <hr />
+   <label id = "label"></label>
+   <script>
+      function repeatvalue() {
+         var txtName = document.getElementById("Username");
+         var lblName = document.getElementById("label");
+         lblName.innerHTML = txtName.value;
+      }
+   </script>
+
+
+    
   
   </head>
   <body>
