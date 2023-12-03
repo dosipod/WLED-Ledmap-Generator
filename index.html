@@ -8,20 +8,14 @@
     <script src="XYmapper.js"></script>
 
 
-  <input type="text" id="Username"/>
-   <input type="button" id = "tutorial" value="Click" onclick = "repeatvalue()" />
-   <hr />
-   <label id = "label"></label>
-   <script>
-      function repeatvalue() {
-         var txtName = document.getElementById("Username");
-         var lblName = document.getElementById("label");
-         lblName.innerHTML = txtName.value;
-         document.getElementById("Username").defaultValue = "The ledmap of all"; 
-      }
-   </script>
+    <script>
+      var inputMapName = document.createElement('inputMapName'); 
+      input.type = "text"; 
+      container.appendChild(inputMapName);
+      document.getElementById(inputMapName").defaultValue = "ALDIY MAP Test ";  
+    </script>
 
-
+  
     
   
   </head>
