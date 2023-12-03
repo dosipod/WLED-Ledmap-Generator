@@ -104,7 +104,7 @@ function buildGrid(numBoxes) {
     for (i = 0; i < xdim; i++) {
       gridHTML += '<div class="ledpixel" id="pixel' + idnum + '"';
       gridHTML += 'onclick="clearButton(this);">';
-      gridHTML +='<div class="ledtext" id="pixeltext' + idnum + '">' + pixelarray[idnum][2] + '</div>';
+      gridHTML += '<div class="ledtext" id="pixeltext' + idnum + '">' + pixelarray[idnum][2] + '</div>';
       gridHTML += '</div>';
       idnum++;
     }
@@ -126,25 +126,25 @@ function buildGrid(numBoxes) {
 function clearArrows(element) {
   // remove left arrows
   childnodes = element.getElementsByClassName("triangle-left");
-  while(childnodes[0]) {
+  while (childnodes[0]) {
     element.removeChild(childnodes[0]);
   }
 
   // remove right arrows
   childnodes = element.getElementsByClassName("triangle-right");
-  while(childnodes[0]) {
+  while (childnodes[0]) {
     element.removeChild(childnodes[0]);
   }
 
   // remove top arrows
   childnodes = element.getElementsByClassName("triangle-top");
-  while(childnodes[0]) {
+  while (childnodes[0]) {
     element.removeChild(childnodes[0]);
   }
 
   // remove bottom arrows
   childnodes = element.getElementsByClassName("triangle-bottom");
-  while(childnodes[0]) {
+  while (childnodes[0]) {
     element.removeChild(childnodes[0]);
   }
 
@@ -211,7 +211,7 @@ function renumberLEDs() {
   var xtemp = 0;
   var ytemp = 0;
 
-  if (vertical == 0 ) {
+  if (vertical == 0) {
     ytemp = ydim;
     xtemp = xdim;
   } else {
@@ -223,11 +223,11 @@ function renumberLEDs() {
   for (y = 0; y < ytemp; y++) {
     for (x = 0; x < xtemp; x++) {
       if (vertical == 0) {
-        if (vflip == 1) var ty = ytemp-y-1; else var ty = y;
-        if (hflip == 1) var tx = xtemp-x-1; else var tx = x;
+        if (vflip == 1) var ty = ytemp - y - 1; else var ty = y;
+        if (hflip == 1) var tx = xtemp - x - 1; else var tx = x;
       } else {
-        if (hflip == 1) var ty = ytemp-y-1; else var ty = y;
-        if (((hflip == 1) ^ (vflip == 1)) ^ (serpentine == 0 && hflip == 1)) var tx = xtemp-x-1;
+        if (hflip == 1) var ty = ytemp - y - 1; else var ty = y;
+        if (((hflip == 1) ^ (vflip == 1)) ^ (serpentine == 0 && hflip == 1)) var tx = xtemp - x - 1;
         //if ((hflip == 1) ^ (serpentine == 1 && vflip == 1)) var tx = xtemp-x-1;
         else var tx = x;
       }
@@ -237,33 +237,48 @@ function renumberLEDs() {
       var oddcols = (xdim % 2 == 1 && hflip == 1 && vertical == 1);
       var evenrows = (ydim % 2 == 0 && vflip == 1 && vertical == 0);
 
-        if ((((ty+evenrows+oddcols) % 2) == 0) || (serpentine==0)) {
-          if (vertical == 0) {
-            ledpos = ty*xtemp+tx;
-            if (hflip == 1) tdir = "L"; else tdir = "R";
-          } else {
-            ledpos = tx*ytemp+ty;
-            if ((vflip == 1) ^ (serpentine == 1 && hflip == 1)) tdir = "U"; else tdir = "D";
-          }
-
+      if ((((ty + evenrows + oddcols) % 2) == 0) || (serpentine == 0)) {
+        if (vertical == 0) {
+          ledpos = ty * xtemp + tx;
+          if (hflip == 1) tdir = "L"; else tdir = "R";
         } else {
-          if (vertical == 0) {
-            ledpos = ty*xtemp+xtemp-1-tx;
-            if (hflip == 1) tdir = "R"; else tdir = "L";
-          } else {
-            ledpos = (xtemp-tx-1)*ytemp+ty;
-            if ((vflip == 1) ^ (serpentine == 1 && hflip == 1)) tdir = "D"; else tdir = "U";
-          }
+          ledpos = tx * ytemp + ty;
+          if ((vflip == 1) ^ (serpentine == 1 && hflip == 1)) tdir = "U"; else tdir = "D";
         }
 
-      pixelarray[ledpos][1] = tdir;
+      } else {
+        if (vertical == 0) {
+          ledpos = ty * xtemp + xtemp - 1 - tx;
+          if (hflip == 1) tdir = "R"; else tdir = "L";
+        } else {
+          ledpos = (xtemp - tx - 1) * ytemp + ty;
+          if ((vflip == 1) ^ (serpentine == 1 && hflip == 1)) tdir = "D"; else tdir = "U";
+        }
+      }
 
+      pixelarray[ledpos][1] = tdir;
+      /* original
       if (pixelarray[ledpos][0] == "E") {
-          pixelarray[ledpos][2] = activeLEDs;
-          activeLEDs++;
-      } else if (pixelarray[ledpos][0] == "D" ) {
-          pixelarray[ledpos][2] = inactiveLEDs;
-          inactiveLEDs++;
+        pixelarray[ledpos][2] = activeLEDs;
+        activeLEDs++;
+      } else if (pixelarray[ledpos][0] == "D") {
+        pixelarray[ledpos][2] = inactiveLEDs;
+        inactiveLEDs++;
+      }
+      */
+      /* Updating maxleds
+      if (pixelarray[ledpos][0] == "E") {
+         pixelarray[ledpos][2] = activeLEDs;
+         activeLEDs++;
+       } else if (pixelarray[ledpos][0] == "D") {
+         pixelarray[ledpos][2] = -1;
+       }
+       */
+
+      pixelarray[ledpos][2] = activeLEDs;
+      activeLEDs++;
+      if (pixelarray[ledpos][0] == "D") {
+        pixelarray[ledpos][2] = -1;
       }
 
       pixelID = "pixeltext" + ledpos;
@@ -290,47 +305,16 @@ function printMap() {
   ledindex = 0;
   mapHTML += '<PRE>';
 
-  mapHTML += '// Params for width and height<BR>';
-  mapHTML += 'const uint8_t kMatrixWidth = ' + xdim + ';<BR>';
-  mapHTML += 'const uint8_t kMatrixHeight = ' + ydim + ';<BR><BR>';
-  mapHTML += '#define NUM_LEDS (kMatrixWidth * kMatrixHeight)<BR>';
-  mapHTML += 'CRGB leds[ NUM_LEDS ];<BR>';
-  mapHTML += '#define LAST_VISIBLE_LED ' + (countActiveLEDs()-1) + '<BR>';
-
-  if (num_leds <= 256) {
-    mapHTML += 'uint8_t XY (uint8_t x, uint8_t y) {<BR>';
-  } else {
-    mapHTML += 'uint16_t XY (uint16_t x, uint16_t y) {<BR>';
-  }
-  mapHTML += '  // any out of bounds address maps to the first hidden pixel<BR>'
-  mapHTML += '  if ( (x >= kMatrixWidth) || (y >= kMatrixHeight) ) {<BR>';
-  mapHTML += '    return (LAST_VISIBLE_LED + 1);<BR>';
-  mapHTML += '  }<BR><BR>';
-
-  if (num_leds <= 256) {
-    mapHTML += '  const uint8_t XYTable[] = ';
-  } else {
-    mapHTML += '  const uint16_t XYTable[] = ';
-  }
-  mapHTML += '{<BR>';
+  mapHTML += '{"n":"matrix","map":[';
   for (y = 0; y < ydim; y++) {
-    mapHTML += '  ';
+    mapHTML += '<BR>';
     for (x = 0; x < xdim; x++) {
-      mapHTML += pad('    ', pixelarray[ledindex][2], true);
+      mapHTML += pad('', pixelarray[ledindex][2], true);
       ledindex++;
       if (ledindex < num_leds) mapHTML += ",";
     }
-    mapHTML += "<BR>";
   }
-  mapHTML += '  };<BR><BR>';
-  if (num_leds <= 256) {
-    mapHTML += '  uint8_t i = (y * kMatrixWidth) + x;<BR>  uint8_t j = XYTable[i];<BR>  return j;<BR>';
-  } else {
-    mapHTML += '  uint16_t i = (y * kMatrixWidth) + x;<BR>  uint16_t j = XYTable[i];<BR>  return j;<BR>';
-  }
-
-  mapHTML += '}</PRE>';
-
+  mapHTML += ']}</PRE>';
   mapDiv.innerHTML = mapHTML;
 }
 
