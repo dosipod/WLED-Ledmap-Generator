@@ -72,7 +72,7 @@ function buildArray(num_leds) {
   vertical = (document.getElementById("verticalCHK")).checked;
   hflip = (document.getElementById("hflipCHK")).checked;
   vflip = (document.getElementById("vflipCHK")).checked;
-
+  
 
   for (i = 0; i < num_leds; i++) {
     pixelarray[i] = [];
@@ -90,7 +90,7 @@ function buildGrid(numBoxes) {
   clearContents(container);
   xdim = Number(document.getElementById('xdim').value);
   ydim = Number(document.getElementById('ydim').value);
-
+  LedmapN = document.getElementById('LedmapN').value
   
 
 
