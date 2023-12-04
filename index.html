@@ -7,24 +7,7 @@
 
     <script src="XYmapper.js"></script>
 
-
-   <input type="text" id="Username" value="mydefvalue" />
-   <input type="button" id = "tutorial" value="Click" onclick = "repeatvalue()" />
-    
-
-   <hr />
-   <label id = "label"></label>
-   <script>
-      function repeatvalue() {
-         var txtName = document.getElementById("Username");
-         var lblName = document.getElementById("label");
-         lblName.innerHTML = txtName.value;
-
-      }
-   </script>
-
-  
-    
+ 
   
   </head>
   <body>
@@ -38,7 +21,21 @@
       <p>Then click LEDs to edit the shape of the array by enabling and disabling pixels. The code is updated in realtime.</p>
       <p>Copy the resulting function and paste into your map file.</p>
       <p>The function will map ordinary X-Y coordinates to the irregular array,pixels that land in gaps will be marked with (-1) .</p>
+   
+    
+    <input type="text" id="Username" value="mydefvalue" />
+    <hr />
+    <label id = "label"></label>
+    <script>
+      function repeatvalue() {
+         var txtName = document.getElementById("Username");
+         var lblName = document.getElementById("label");
+         lblName.innerHTML = txtName.value;
+      }
+    </script>
 
+
+    
     <div class="controls">
       <input type="checkbox" id="serpentineCHK" onchange="serpentineLayout(this)" checked>Serpentine</input>
       <input type="checkbox" id="verticalCHK" onchange="verticalLayout(this)">Vertical</input><br>
