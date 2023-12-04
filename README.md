@@ -9,4 +9,4 @@ Create a ledmap and paste the resulted map ( reboot wled if this is the first ti
 
 <img width="448" alt="image" src="/assets/images/content/How_to_create_LEDMAPS_01.png">
 
-Afterword select the map from the dropdown under the segment ( ignore that bug that it does not change the name ) 
+Afterword select the map from the dropdown under the segment (ignore that bug that it does not change the name) 
