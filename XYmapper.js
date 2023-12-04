@@ -14,7 +14,7 @@ var serpentine = 0;
 var hflip = 0;
 var vflip = 1;
 var vertical = 0;
-
+var LedmapN="hi from mapper";
 
 function serpentineLayout(event) {
   if (event.checked) {
@@ -311,7 +311,7 @@ function printMap() {
   ledindex = 0;
   mapHTML += '<PRE>';
 
-     mapHTML += '{"n":"Aldiy ledmap"'+ '<BR>';
+     mapHTML += '{"n":"' + LedmapN + '"' + '<BR>';
      mapHTML += ',"width":' + xdim + '<BR>';
      mapHTML += ',"height":' + ydim + '<BR>';
      mapHTML += ',"map":[';
