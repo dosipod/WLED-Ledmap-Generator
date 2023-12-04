@@ -22,29 +22,19 @@
       <p>Copy the resulting function and paste into your map file.</p>
       <p>The function will map ordinary X-Y coordinates to the irregular array,pixels that land in gaps will be marked with (-1) .</p>
    
-    
-    <input type="text" id="Username" value="mydefvalue" />
-    <hr />
-    <label id = "label"></label>
-    <script>
-      function repeatvalue() {
-         var txtName = document.getElementById("Username");
-         var lblName = document.getElementById("label");
-         lblName.innerHTML = txtName.value;
-      }
-    </script>
-
-
+ 
     
     <div class="controls">
       <input type="checkbox" id="serpentineCHK" onchange="serpentineLayout(this)" checked>Serpentine</input>
       <input type="checkbox" id="verticalCHK" onchange="verticalLayout(this)">Vertical</input><br>
       <input type="checkbox" id="vflipCHK" onchange="vflipLayout(this)">V-Flip</input>
       <input type="checkbox" id="hflipCHK" onchange="hflipLayout(this)">H-Flip</input><br>
-      <input type="text" id="LedmapName" value="mydefvalue">
+  
       <br>
       <div class="inputBox"><label class="inputText">Width</label><input id="xdim" type="number" name="xdim" min="1" value="16"/></div>
       <div class="inputBox"><label class="inputText">Height</label><input id="ydim" type="number" name="ydim" min="1" value="5"/></div>
+      <div class="inputBox"><label class="inputText">LedmapName</label><input id="LedmapName" type="text" name="LedmapName" value="My ledmap"/></div>
+      
     </div>
       <button id="rebuildArray" onclick="buildGrid()">Rebuild</button>
 
