@@ -12,6 +12,9 @@ Create a ledmap and paste the resulted map ( reboot wled if this is the first ti
 Afterword select the map from the dropdown under the segment (ignore the bug that it does not change the name) 
 
 DEMO
-<img width="800" alt="image" src="./assets/images/content/how_to_use_map_genrator.giF">
+<img width="800" alt="image" src="/assets/images/content/how_to_use_map_genrator.giF">
 DEMO2
-<img width="800" alt="image" src="./assets/images/content/How_to_create_LEDMAPS_01.png">
+
+![Example How to use mapper ](../assets/images/content/how_to_use_map_genrator.giF)
+
+![Example How to use mapper2 ](../assets/images/content/How_to_create_LEDMAPS_01.png")
