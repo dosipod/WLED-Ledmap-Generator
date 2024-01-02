@@ -13,4 +13,5 @@ Afterword select the map from the dropdown under the segment (ignore the bug tha
 
 DEMO
 <img width="800" alt="image" src="./assets/images/content/how_to_use_map_genrator.giF">
-
+DEMO2
+<img width="800" alt="image" src="./assets/images/content/How_to_create_LEDMAPS_01.png">
