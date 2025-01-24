@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Text to GIF for WLED - Version 1.6</title>
+  <title>Text to GIF for WLED - Version 1.7</title>
   <style>
     #previewBox {
       border: 1px solid #000;
@@ -14,12 +14,12 @@
   </style>
 </head>
 <body>
-  <h2>Text to GIF for WLED - Version 1.6</h2>
-  <input type="text" id="textInput" placeholder="Enter text" oninput="updatePreviewAndGIF()">
+  <h2>Text to GIF for WLED - Version 1.7</h2>
+  <input type="text" id="textInput" placeholder="Enter text" oninput="updatePreview()">
   <p>Font Size: <span id="fontSizeValue">16</span>px</p>
-  <input type="range" id="fontSizeSlider" min="8" max="32" value="16" oninput="updatePreviewAndGIF()">
+  <input type="range" id="fontSizeSlider" min="8" max="32" value="16" oninput="updatePreview()">
   <p>Font: 
-    <select id="fontSelect" onchange="updatePreviewAndGIF()">
+    <select id="fontSelect" onchange="updatePreview()">
       <option value="Arial">Arial</option>
       <option value="Courier New">Courier New</option>
       <option value="Georgia">Georgia</option>
@@ -39,7 +39,7 @@
     </select>
   </p>
   <p>Font Style: 
-    <select id="fontStyleSelect" onchange="updatePreviewAndGIF()">
+    <select id="fontStyleSelect" onchange="updatePreview()">
       <option value="normal">Regular</option>
       <option value="italic">Italic</option>
       <option value="bold">Bold</option>
@@ -47,10 +47,10 @@
     </select>
   </p>
   <p>Text Color: 
-    <input type="color" id="colorPicker" value="#FFFFFF" onchange="updatePreviewAndGIF()">
+    <input type="color" id="colorPicker" value="#FFFFFF" onchange="updatePreview()">
   </p>
   <p>Background Color: 
-    <input type="color" id="bgColorPicker" value="#000000" onchange="updatePreviewAndGIF()">
+    <input type="color" id="bgColorPicker" value="#000000" onchange="updatePreview()">
   </p>
   <p>Preview:</p>
   <div id="previewBox"></div>
@@ -63,7 +63,7 @@
     function updateFontSize() {
       const fontSize = document.getElementById('fontSizeSlider').value;
       document.getElementById('fontSizeValue').textContent = fontSize;
-      updatePreviewAndGIF();
+      updatePreview();
     }
 
     function updatePreview() {
@@ -81,11 +81,6 @@
       previewBox.style.color = color;
       previewBox.style.backgroundColor = bgColor;
       previewBox.textContent = text;
-    }
-
-    function updatePreviewAndGIF() {
-      updatePreview();
-      saveGIF();
     }
 
     function saveGIF() {
