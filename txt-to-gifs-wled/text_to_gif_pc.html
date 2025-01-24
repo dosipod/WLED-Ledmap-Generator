@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Text to GIF for WLED - Version 1.3</title>
+  <title>Text to GIF for WLED - Version 1.4</title>
   <style>
     #previewBox {
       border: 1px solid #000;
@@ -14,7 +14,7 @@
   </style>
 </head>
 <body>
-  <h2>Text to GIF for WLED - Version 1.3</h2>
+  <h2>Text to GIF for WLED - Version 1.4</h2>
   <input type="text" id="textInput" placeholder="Enter text" oninput="updatePreview()">
   <p>Font Size: <span id="fontSizeValue">16</span>px</p>
   <input type="range" id="fontSizeSlider" min="8" max="32" value="16" oninput="updateFontSize()">
@@ -44,6 +44,8 @@
   <p>Preview:</p>
   <div id="previewBox"></div>
   <button onclick="saveGIF()">Save</button>
+  <p>GIF Preview:</p>
+  <img id="gifPreview" src="" alt="GIF Preview" style="border:1px solid #000; width:300px; height:150px;">
   <p id="debugInfo"></p>
 
   <script>
@@ -59,7 +61,8 @@
       const font = document.getElementById('fontSelect').value;
       const color = document.getElementById('colorPicker').value;
       const previewBox = document.getElementById('previewBox');
-      previewBox.style.font = `${fontSize}px ${font}`;
+      previewBox.style.fontSize = `${fontSize}px`;
+      previewBox.style.fontFamily = font;
       previewBox.style.color = color;
       previewBox.textContent = text;
     }
@@ -105,6 +108,10 @@
         a.href = url;
         a.download = 'text.gif';
         a.click();
+
+        // Update GIF preview
+        const gifPreview = document.getElementById('gifPreview');
+        gifPreview.src = url;
       });
 
       gif.render();
