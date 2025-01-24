@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Text to GIF for WLED - Version 1.5</title>
+  <title>Text to GIF for WLED - Version 1.6</title>
   <style>
     #previewBox {
       border: 1px solid #000;
@@ -14,12 +14,12 @@
   </style>
 </head>
 <body>
-  <h2>Text to GIF for WLED - Version 1.5</h2>
-  <input type="text" id="textInput" placeholder="Enter text" oninput="updatePreview()">
+  <h2>Text to GIF for WLED - Version 1.6</h2>
+  <input type="text" id="textInput" placeholder="Enter text" oninput="updatePreviewAndGIF()">
   <p>Font Size: <span id="fontSizeValue">16</span>px</p>
-  <input type="range" id="fontSizeSlider" min="8" max="32" value="16" oninput="updateFontSize()">
+  <input type="range" id="fontSizeSlider" min="8" max="32" value="16" oninput="updatePreviewAndGIF()">
   <p>Font: 
-    <select id="fontSelect" onchange="updatePreview()">
+    <select id="fontSelect" onchange="updatePreviewAndGIF()">
       <option value="Arial">Arial</option>
       <option value="Courier New">Courier New</option>
       <option value="Georgia">Georgia</option>
@@ -38,15 +38,22 @@
       <option value="Yu Gothic">Yu Gothic</option>
     </select>
   </p>
+  <p>Font Style: 
+    <select id="fontStyleSelect" onchange="updatePreviewAndGIF()">
+      <option value="normal">Regular</option>
+      <option value="italic">Italic</option>
+      <option value="bold">Bold</option>
+      <option value="bold italic">Bold Italic</option>
+    </select>
+  </p>
   <p>Text Color: 
-    <input type="color" id="colorPicker" value="#FFFFFF" onchange="updatePreview()">
+    <input type="color" id="colorPicker" value="#FFFFFF" onchange="updatePreviewAndGIF()">
   </p>
   <p>Background Color: 
-    <input type="color" id="bgColorPicker" value="#000000" onchange="updatePreview()">
+    <input type="color" id="bgColorPicker" value="#000000" onchange="updatePreviewAndGIF()">
   </p>
   <p>Preview:</p>
   <div id="previewBox"></div>
-  <button onclick="previewGIF()">Preview GIF</button>
   <button onclick="saveGIF()">Save GIF</button>
   <p>GIF Preview:</p>
   <img id="gifPreview" src="" alt="GIF Preview" style="border:1px solid #000; width:300px; height:150px;">
@@ -56,27 +63,36 @@
     function updateFontSize() {
       const fontSize = document.getElementById('fontSizeSlider').value;
       document.getElementById('fontSizeValue').textContent = fontSize;
-      updatePreview();
+      updatePreviewAndGIF();
     }
 
     function updatePreview() {
       const text = document.getElementById('textInput').value;
       const fontSize = document.getElementById('fontSizeSlider').value;
       const font = document.getElementById('fontSelect').value;
+      const fontStyle = document.getElementById('fontStyleSelect').value;
       const color = document.getElementById('colorPicker').value;
       const bgColor = document.getElementById('bgColorPicker').value;
       const previewBox = document.getElementById('previewBox');
       previewBox.style.fontSize = `${fontSize}px`;
       previewBox.style.fontFamily = font;
+      previewBox.style.fontStyle = fontStyle.includes('italic') ? 'italic' : 'normal';
+      previewBox.style.fontWeight = fontStyle.includes('bold') ? 'bold' : 'normal';
       previewBox.style.color = color;
       previewBox.style.backgroundColor = bgColor;
       previewBox.textContent = text;
     }
 
-    function generateGIF(callback) {
+    function updatePreviewAndGIF() {
+      updatePreview();
+      saveGIF();
+    }
+
+    function saveGIF() {
       const text = document.getElementById('textInput').value;
       const fontSize = document.getElementById('fontSizeSlider').value;
       const font = document.getElementById('fontSelect').value;
+      const fontStyle = document.getElementById('fontStyleSelect').value;
       const color = document.getElementById('colorPicker').value;
       const bgColor = document.getElementById('bgColorPicker').value;
 
@@ -84,7 +100,9 @@
       canvas.width = 32;
       canvas.height = 16;
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
-      ctx.font = `${fontSize}px ${font}`;
+      ctx.font = `${fontStyle.includes('bold') ? 'bold' : 'normal'} ${fontStyle.includes('italic') ? 'italic' : 'normal'} ${fontSize}px ${font}`;
+      ctx.fillStyle = color;
+      ctx.fillRect(0, 0, canvas.width, canvas.height); // Set background color
       ctx.fillStyle = color;
 
       const textWidth = ctx.measureText(text).width;
@@ -94,7 +112,7 @@
       for (let x = 0; x < totalFrames; x++) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = bgColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, canvas.width, canvas.height); // Set background color
         ctx.fillStyle = color;
         ctx.fillText(text, -x, 12);
         frames.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
@@ -113,22 +131,6 @@
       });
 
       gif.on('finished', function(blob) {
-        callback(blob);
-      });
-
-      gif.render();
-    }
-
-    function previewGIF() {
-      generateGIF(function(blob) {
-        const url = URL.createObjectURL(blob);
-        const gifPreview = document.getElementById('gifPreview');
-        gifPreview.src = url;
-      });
-    }
-
-    function saveGIF() {
-      generateGIF(function(blob) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -139,6 +141,8 @@
         const gifPreview = document.getElementById('gifPreview');
         gifPreview.src = url;
       });
+
+      gif.render();
     }
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
