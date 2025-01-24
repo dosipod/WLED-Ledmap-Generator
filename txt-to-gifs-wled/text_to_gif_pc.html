@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text to GIF for WLED - Version 1.9</title>
+  <style>
+    body {
+      background-color: #000000;
+      color: #FFFFFF;
+    }
+    #previewBox {
+      border: 1px solid #FFFFFF;
+      padding: 10px;
+      width: 300px;
+      height: 50px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <h2>Text to GIF for WLED - Version 1.9</h2>
+  <input type="text" id="textInput" placeholder="Enter text" oninput="updatePreviewAndGIF()">
+  <p>Font Size: <span id="fontSizeValue">16</span>px</p>
+  <input type="range" id="fontSizeSlider" min="8" max="32" value="16" oninput="updatePreviewAndGIF()">
+  <p>Font: 
+    <select id="fontSelect" onchange="updatePreviewAndGIF()">
+      <option value="Arial">Arial</option>
+      <option value="Courier New">Courier New</option>
+      <option value="Georgia">Georgia</option>
+      <option value="Times New Roman">Times New Roman</option>
+      <option value="Verdana">Verdana</option>
+    </select>
+  </p>
+  <p>Font Style: 
+    <select id="fontStyleSelect" onchange="updatePreviewAndGIF()">
+      <option value="normal">Regular</option>
+      <option value="italic">Italic</option>
+      <option value="bold">Bold</option>
+      <option value="bold italic">Bold Italic</option>
+    </select>
+  </p>
+  <p>Text Color: 
+    <input type="color" id="colorPicker" value="#FFFFFF" onchange="updatePreviewAndGIF()">
+  </p>
+  <p>Background Color: 
+    <input type="color" id="bgColorPicker" value="#000000" onchange="updatePreviewAndGIF()">
+  </p>
+  <p>Preview:</p>
+  <div id="previewBox"></div>
+  <button onclick="saveGIF()">Save GIF</button>
+  <p>GIF Preview:</p>
+  <img id="gifPreview" src="" alt="GIF Preview" style="border:1px solid #FFFFFF; width:300px; height:150px;">
+  <p id="debugInfo"></p>
+
+  <script>
+    function updateFontSize() {
+      const fontSize = document.getElementById('fontSizeSlider').value;
+      document.getElementById('fontSizeValue').textContent = fontSize;
+      updatePreviewAndGIF();
+    }
+
+    function updatePreview() {
+      const text = document.getElementById('textInput').value;
+      const fontSize = document.getElementById('fontSizeSlider').value;
+      const font = document.getElementById('fontSelect').value;
+      const fontStyle = document.getElementById('fontStyleSelect').value;
+      const color = document.getElementById('colorPicker').value;
+      const bgColor = document.getElementById('bgColorPicker').value;
+      const previewBox = document.getElementById('previewBox');
+      previewBox.style.fontSize = `${fontSize}px`;
+      previewBox.style.fontFamily = font;
+      previewBox.style.fontStyle = fontStyle.includes('italic') ? 'italic' : 'normal';
+      previewBox.style.fontWeight = fontStyle.includes('bold') ? 'bold' : 'normal';
+      previewBox.style.color = color;
+      previewBox.style.backgroundColor = bgColor;
+      previewBox.textContent = text;
+    }
+
+    function updatePreviewAndGIF() {
+      updatePreview();
+      generateGIFPreview();
+    }
+
+    function generateGIFPreview() {
+      const text = document.getElementById('textInput').value;
+      const fontSize = document.getElementById('fontSizeSlider').value;
+      const font = document.getElementById('fontSelect').value;
+      const fontStyle = document.getElementById('fontStyleSelect').value;
+      const color = document.getElementById('colorPicker').value;
+      const bgColor = document.getElementById('bgColorPicker').value;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 300;
+      canvas.height = 50;
+      const ctx = canvas.getContext('2d');
+      ctx.font = `${fontStyle.includes('bold') ? 'bold' : 'normal'} ${fontStyle.includes('italic') ? 'italic' : 'normal'} ${fontSize}px ${font}`;
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = color;
+      ctx.fillText(text, 10, 30);
+
+      const gif = new GIF({
+        workers: 2,
+        quality: 10,
+        width: 300,
+        height: 50
+      });
+
+      gif.addFrame(ctx, {copy: true, delay: 100});
+      gif.on('finished', function(blob) {
+        const url = URL.createObjectURL(blob);
+        document.getElementById('gifPreview').src = url;
+      });
+
+      gif.render();
+    }
+
+    function saveGIF() {
+      generateGIFPreview();
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
+</body>
+</html>
