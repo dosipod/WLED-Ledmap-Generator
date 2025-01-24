@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Text to GIF for WLED - Version 1.9</title>
+  <title>Text to GIF for WLED - Version 2.0</title>
   <style>
     body {
       background-color: #000000;
@@ -18,7 +18,7 @@
   </style>
 </head>
 <body>
-  <h2>Text to GIF for WLED - Version 1.9</h2>
+  <h2>Text to GIF for WLED - Version 2.0</h2>
   <input type="text" id="textInput" placeholder="Enter text" oninput="updatePreviewAndGIF()">
   <p>Font Size: <span id="fontSizeValue">16</span>px</p>
   <input type="range" id="fontSizeSlider" min="8" max="32" value="16" oninput="updatePreviewAndGIF()">
@@ -110,6 +110,10 @@
       gif.on('finished', function(blob) {
         const url = URL.createObjectURL(blob);
         document.getElementById('gifPreview').src = url;
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'text.gif';
+        a.click();
       });
 
       gif.render();
