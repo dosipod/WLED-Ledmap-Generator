@@ -29,6 +29,17 @@
       <option value="Georgia">Georgia</option>
       <option value="Times New Roman">Times New Roman</option>
       <option value="Verdana">Verdana</option>
+      <option value="Gabriola">Gabriola</option>
+      <option value="Impact">Impact</option>
+      <option value="Tahoma">Tahoma</option>
+      <option value="Andalus">Andalus</option>
+      <option value="Arabic Typesetting">Arabic Typesetting</option>
+      <option value="Comic Sans MS">Comic Sans MS</option>
+      <option value="Ebrima">Ebrima</option>
+      <option value="Consolas">Consolas</option>
+      <option value="MS Serif">MS Serif</option>
+      <option value="Symbol">Symbol</option>
+      <option value="Yu Gothic">Yu Gothic</option>
     </select>
   </p>
   <p>Font Style: 
@@ -90,37 +101,105 @@
       const bgColor = document.getElementById('bgColorPicker').value;
 
       const canvas = document.createElement('canvas');
-      canvas.width = 300;
-      canvas.height = 50;
-      const ctx = canvas.getContext('2d');
+      canvas.width = 32;
+      canvas.height = 16;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
       ctx.font = `${fontStyle.includes('bold') ? 'bold' : 'normal'} ${fontStyle.includes('italic') ? 'italic' : 'normal'} ${fontSize}px ${font}`;
-      ctx.fillStyle = bgColor;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = color;
-      ctx.fillText(text, 10, 30);
+      ctx.fillRect(0, 0, canvas.width, canvas.height); // Set background color
+      ctx.fillStyle = color;
+
+      const textWidth = ctx.measureText(text).width;
+      const frames = [];
+      const totalFrames = Math.ceil(textWidth / canvas.width) * 32; // Adjust the total frames based on text width
+
+      for (let x = 0; x < totalFrames; x++) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height); // Set background color
+        ctx.fillStyle = color;
+        ctx.fillText(text, -x, 12);
+        frames.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+      }
 
       const gif = new GIF({
         workers: 2,
         quality: 10,
-        width: 300,
-        height: 50
+        width: 32,
+        height: 16,
+        workerScript: 'gif.worker.js'
       });
 
-      gif.addFrame(ctx, {copy: true, delay: 100});
+      frames.forEach(frame => {
+        gif.addFrame(frame, { delay: 100 });
+      });
+
       gif.on('finished', function(blob) {
         const url = URL.createObjectURL(blob);
-        document.getElementById('gifPreview').src = url;
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'text.gif';
-        a.click();
+
+        // Update GIF preview
+        const gifPreview = document.getElementById('gifPreview');
+        gifPreview.src = url;
       });
 
       gif.render();
     }
 
     function saveGIF() {
-      generateGIFPreview();
+      const text = document.getElementById('textInput').value;
+      const fontSize = document.getElementById('fontSizeSlider').value;
+      const font = document.getElementById('fontSelect').value;
+      const fontStyle = document.getElementById('fontStyleSelect').value;
+      const color = document.getElementById('colorPicker').value;
+      const bgColor = document.getElementById('bgColorPicker').value;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 32;
+      canvas.height = 16;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      ctx.font = `${fontStyle.includes('bold') ? 'bold' : 'normal'} ${fontStyle.includes('italic') ? 'italic' : 'normal'} ${fontSize}px ${font}`;
+      ctx.fillStyle = color;
+      ctx.fillRect(0, 0, canvas.width, canvas.height); // Set background color
+      ctx.fillStyle = color;
+
+      const textWidth = ctx.measureText(text).width;
+      const frames = [];
+      const totalFrames = Math.ceil(textWidth / canvas.width) * 32; // Adjust the total frames based on text width
+
+      for (let x = 0; x < totalFrames; x++) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height); // Set background color
+        ctx.fillStyle = color;
+        ctx.fillText(text, -x, 12);
+        frames.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+      }
+
+      const gif = new GIF({
+        workers: 2,
+        quality: 10,
+        width: 32,
+        height: 16,
+        workerScript: 'gif.worker.js'
+      });
+
+      frames.forEach(frame => {
+        gif.addFrame(frame, { delay: 100 });
+      });
+
+      gif.on('finished', function(blob) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'text.gif';
+        a.click();
+
+        // Update GIF preview
+        const gifPreview = document.getElementById('gifPreview');
+        gifPreview.src = url;
+      });
+
+      gif.render();
     }
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
