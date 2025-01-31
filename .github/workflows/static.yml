@@ -34,10 +34,14 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: 
+          actions/jekyll-build-pages@v4
+          actions/upload-pages-artifact@v4
         with:
           # Upload entire repository
           path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: 
+          actions/jekyll-build-pages@v4
+          actions/deploy-pages@v4
